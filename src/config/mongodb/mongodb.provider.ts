@@ -9,9 +9,7 @@ export const mongoDbProviders = [
     useFactory: (): unknown =>
       mongoose.createConnection(process.env.MONGO_DB_URI as string, {
         ...ormConfig.getMongodbConfig(),
-        ...{
-          dbName: process.env.MONGO_DB_NAME,
-        },
+        dbName: process.env.MONGO_DB_NAME,
       }),
   },
 ];
