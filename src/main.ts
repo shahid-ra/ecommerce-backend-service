@@ -13,6 +13,7 @@ async function bootstrap() {
   app.use(cookieParser());
   const httpAdapter = app.get(HttpAdapterHost);
   app.useGlobalFilters(new HttpExceptionFilter(httpAdapter));
+  app.setGlobalPrefix('v1');
   await app.listen(8080);
 }
 void bootstrap();

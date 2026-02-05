@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import * as winston from 'winston';
 import { DateTimeUtils } from './utils/date-time-utils';
 import { WinstonModule } from 'nest-winston';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { WinstonModule } from 'nest-winston';
         }),
       ],
     }),
+    AuthModule,
   ],
   controllers: [],
   providers: [],
