@@ -40,7 +40,7 @@ export class AuthMiddleware implements NestMiddleware {
 
     try {
       const payload = this.jwtService.verify(token);
-      const user = await this.userService.findResource(payload.sub);
+      const user = await this.userService.findByEmail(payload.email);
 
       if (!user) {
         throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);

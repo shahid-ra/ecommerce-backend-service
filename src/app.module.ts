@@ -11,6 +11,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { RequestMiddleware } from './middlewares/request.middleware';
 import { AuthMiddleware } from './middlewares/auth.middleware';
 import { UserModule } from './modules/users/user.module';
+import { ProductModule } from './modules/products/product.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { UserModule } from './modules/users/user.module';
     }),
     AuthModule,
     UserModule,
+    ProductModule,
   ],
   controllers: [],
   providers: [],
@@ -57,6 +59,6 @@ export class AppModule implements NestModule {
           method: RequestMethod.POST,
         },
       )
-      .forRoutes({ path: 'auth/*path', method: RequestMethod.ALL });
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 }
