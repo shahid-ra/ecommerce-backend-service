@@ -14,6 +14,6 @@ async function bootstrap() {
   const httpAdapter = app.get(HttpAdapterHost);
   app.useGlobalFilters(new HttpExceptionFilter(httpAdapter));
   app.setGlobalPrefix('v1');
-  await app.listen(8080);
+  await app.listen(process.env.PORT || 8080);
 }
 void bootstrap();
