@@ -1,8 +1,16 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import * as winston from 'winston';
 import { DateTimeUtils } from './utils/date-time-utils';
 import { WinstonModule } from 'nest-winston';
 import { AuthModule } from './modules/auth/auth.module';
+import { RequestMiddleware } from './middlewares/request.middleware';
+import { AuthMiddleware } from './middlewares/auth.middleware';
+import { UserModule } from './modules/users/user.module';
 
 @Module({
   imports: [
@@ -27,8 +35,28 @@ import { AuthModule } from './modules/auth/auth.module';
       ],
     }),
     AuthModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(RequestMiddleware)
+      .forRoutes({ path: '*path', method: RequestMethod.ALL });
+    consumer
+      .apply(AuthMiddleware)
+      .exclude(
+        {
+          path: 'auth/login',
+          method: RequestMethod.POST,
+        },
+        {
+          path: 'auth/register',
+          method: RequestMethod.POST,
+        },
+      )
+      .forRoutes({ path: 'auth/*path', method: RequestMethod.ALL });
+  }
+}
